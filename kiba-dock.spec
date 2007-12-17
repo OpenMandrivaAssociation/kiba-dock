@@ -15,7 +15,6 @@ URL: http://forums.beryl-project.org/
 Source: %{name}-%{cvs}.tar.bz2 
 patch0: kiba-dock-fix-python.patch
 License: GPL
-BuildRoot: %{_tmppath}/%{name}-root
 
 BuildRequires: libx11-devel >= 1.0.0
 BuildRequires: libsvg-cairo-devel
