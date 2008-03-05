@@ -1,7 +1,7 @@
 %define name kiba-dock
 %define version 0
 %define cvs 20070201
-%define release %mkrel 0.%{cvs}.6
+%define release %mkrel 0.%{cvs}.7
 
 %define lib_major 0
 %define lib_name %mklibname %{name} %lib_major
@@ -72,9 +72,6 @@ Library files for %{name}
 Summary: Development files for %name
 Group: Development/X11
 Requires: %lib_name = %version
-
-Provides: %{name}-devel
-Obsoletes: %{name}-devel
 
 %description -n %lib_name-devel
 Development files for %name
