@@ -1,120 +1,88 @@
-%define name kiba-dock
-%define version 0
-%define cvs 20070201
-%define release %mkrel 0.%{cvs}.7
+%define svn	722
+%define release %mkrel 0.%{svn}.1
 
-%define lib_major 0
-%define lib_name %mklibname %{name} %lib_major
+Name:		kiba-dock
+Version:	0.1
+Release:	%{release}
+Summary:	Application dock with advanced graphical effects
+Group:		System/X11
+URL:		http://www.kiba-dock.org/
+Source0:	%{name}-%{svn}.tar.lzma
+# Need to add -lpthread to the ld parameters - AdamW 2008/03
+Patch0:		kiba-dock-0.1-pthread.patch
+# Fix up menu entries for MDV standards - AdamW 2008/03
+Patch1:		kiba-dock-0.1-desktop.patch
+License:	GPLv2+
+BuildRoot:	%{_tmppath}/%{name}-root
+BuildRequires:	libsvg-cairo-devel
+BuildRequires:	librsvg-devel
+BuildRequires:	pango-devel
+BuildRequires:	gtk2-devel
+BuildRequires:	glib2-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	startup-notification-devel
+BuildRequires:	dbus-glib-devel
+BuildRequires:	intltool
+Requires:	kiba-plugins = %{version}
+Obsoletes:	%{mklibname kiba-dock 0} <= %{version}-%{release}
 
-Name: %name
-Version: %version
-Release: %release
-Summary: Funky application dock for X11
-Group: System/X11
-URL: http://forums.beryl-project.org/
-Source: %{name}-%{cvs}.tar.bz2 
-patch0: kiba-dock-fix-python.patch
-License: GPL
-BuildRoot: %{_tmppath}/%{name}-root
-
-BuildRequires: libx11-devel >= 1.0.0
-BuildRequires: libsvg-cairo-devel
-BuildRequires: librsvg-devel
-BuildRequires: cairo-devel
-BuildRequires: glitz-devel
-BuildRequires: pango-devel
-BuildRequires: gtk2-devel
-BuildRequires: libglade2.0-devel
-BuildRequires: glib2-devel
-BuildRequires: libpng-devel
-BuildRequires: libgnome-desktop-2-devel
-BuildRequires: intltool
-BuildRequires: libgtop2.0-devel
-Requires: gconf-editor
-Requires: %{lib_name} = %{version}-%{release}
 %description
-Funky dock for X11
+Kiba-Dock is an application dock which uses desktop compositing to
+provide advanced graphical effects. A variety of plugins is also
+available to extend Kiba-Dock's features.
 
-%files
-%defattr(-,root,root)
-%{_sysconfdir}/gconf/schemas/kiba.schemas
-%{_bindir}/%{name}
-%{_bindir}/akamaru
-%{_bindir}/gset-kiba
-%{_bindir}/kiba-icon-editor.py
-%{_bindir}/kiba-systray.py
-%{_bindir}/populate-dock.sh
-%py_puresitedir/SimpleGladeApp.py
-%{_datadir}/icons/hicolor/*/apps/kiba*.png
-%{_datadir}/kiba-dock/*
+%package devel
+Summary:	Development files for %{name}
+Group:		Development/X11
+Obsoletes:	%{mklibname kiba-dock 0 -d} <= %{version}-%{release}
 
-
-%package -n %lib_name
-Summary: Library files for %{name}
-Group: System/X11
-Provides: %lib_name = %version
-
-%description -n %lib_name
-Library files for %{name}
-
-%post -n %lib_name -p /sbin/ldconfig
-
-%postun -n %lib_name -p /sbin/ldconfig
-
-%files -n %lib_name
-%defattr(-,root,root)
-%{_libdir}/%{name}/*.so*
-%{_libdir}/%{name}/*.la*
-
-#------------------------------------------------------------------------------
-
-%package -n %lib_name-devel
-Summary: Development files for %name
-Group: Development/X11
-Requires: %lib_name = %version
-
-%description -n %lib_name-devel
-Development files for %name
-
-%files -n %lib_name-devel
-%defattr(-,root,root)
-%{_includedir}/%{name}/*.h
-%{_libdir}/pkgconfig/kiba-dock.pc
-%{_libdir}/%{name}/*.a
-
-#------------------------------------------------------------------------------
+%description devel
+Development files for %{name}.
 
 %prep
-%setup -q -n %{name}-%{cvs}
-
-%if "%py_ver" == "2.5"
-%patch0 -p0
-%endif
-
-# Fix x86_64 issue
-sed -i "s,/usr/lib,%_libdir,g" dock/kiba-dock.c
+%setup -q -n %{name}
+%patch0 -p1 -b .pthread
+%patch1 -p1 -b .desktop
 
 %build
-# This is a CVS snapshot, so we need to generate makefiles.
 sh autogen.sh -V
-
 %configure2_5x
-
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+%find_lang %{name}
 
-%define schemas kiba
-%post
-%post_install_gconf_schemas %{schemas}
+#icons
+mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,24x24,48x48,64x64,128x128,scalable}/apps
+install -m 0644 icons/kiba_16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+install -m 0644 icons/kiba_24.png %{buildroot}%{_iconsdir}/hicolor/24x24/apps/%{name}.png
+install -m 0644 icons/kiba_48.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+install -m 0644 icons/kiba_64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
+install -m 0644 icons/kiba_128.png %{buildroot}%{_iconsdir}/hicolor/128x128/apps/%{name}.png
+install -m 0644 icons/kiba-dock.svg %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.svg
 
-%preun
-%preun_uninstall_gconf_schemas %{schemas}
+# We want the main package to own this dir as various other packages
+# might put files into it - AdamW 2008/03
+mkdir -p %{buildroot}%{_datadir}/%{name}/config_schemas/plugins
 
 %clean
 rm -rf %{buildroot}
 
+%files -f %{name}.lang
+%defattr(-,root,root)
+%doc AUTHORS ChangeLog README TODO
+%{_bindir}/%{name}
+%{_bindir}/kiba-settings
+%{_bindir}/populate-dock.sh
+%{_datadir}/applications/*.desktop
+%{_datadir}/%{name}
+%{_datadir}/pixmaps/%{name}.png
+%{_iconsdir}/hicolor/*/apps/%{name}.*
 
+%files devel
+%defattr(-,root,root)
+%{_includedir}/%{name}
+%{_libdir}/pkgconfig/%{name}.pc
 
