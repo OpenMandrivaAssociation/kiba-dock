@@ -1,4 +1,4 @@
-%define svn	722
+%define svn	862
 %define release %mkrel 0.%{svn}.1
 
 Name:		kiba-dock
@@ -8,10 +8,8 @@ Summary:	Application dock with advanced graphical effects
 Group:		System/X11
 URL:		http://www.kiba-dock.org/
 Source0:	%{name}-%{svn}.tar.lzma
-# Need to add -lpthread to the ld parameters - AdamW 2008/03
-Patch0:		kiba-dock-0.1-pthread.patch
 # Fix up menu entries for MDV standards - AdamW 2008/03
-Patch1:		kiba-dock-0.1-desktop.patch
+Patch0:		kiba-dock-0.1-desktop.patch
 License:	GPLv2+
 BuildRoot:	%{_tmppath}/%{name}-root
 BuildRequires:	libsvg-cairo-devel
@@ -41,8 +39,7 @@ Development files for %{name}.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1 -b .pthread
-%patch1 -p1 -b .desktop
+%patch0 -p1 -b .desktop
 
 %build
 sh autogen.sh -V
