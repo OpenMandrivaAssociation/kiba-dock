@@ -1,5 +1,5 @@
-%define svn	862
-%define release %mkrel 0.%{svn}.2
+%define svn	1218
+%define release %mkrel 0.%{svn}.1
 
 Name:		kiba-dock
 Version:	0.1
@@ -7,11 +7,9 @@ Release:	%{release}
 Summary:	Application dock with advanced graphical effects
 Group:		System/X11
 URL:		http://www.kiba-dock.org/
-Source0:	%{name}-%{svn}.tar.lzma
+Source0:	%{name}-%{svn}.tar.xz
 # Fix up menu entries for MDV standards - AdamW 2008/03
 Patch0:		kiba-dock-0.1-desktop.patch
-Patch1:		kiba-dock-fix-str-fmt.patch
-Patch2:		kiba-dock-install.patch
 License:	GPLv2+
 BuildRoot:	%{_tmppath}/%{name}-root
 BuildRequires:	libsvg-cairo-devel
@@ -22,7 +20,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	startup-notification-devel
 BuildRequires:	dbus-glib-devel
-BuildRequires:	intltool
+BuildRequires:	intltool gtk-doc
 Requires:	kiba-plugins = %{version}
 Obsoletes:	%{mklibname kiba-dock 0} <= %{version}-%{release}
 
@@ -42,11 +40,9 @@ Development files for %{name}.
 %prep
 %setup -q -n %{name}
 %patch0 -p1 -b .desktop
-%patch1 -p0 -b .str
-%patch2 -p0 -b .install
 
 %build
-sh autogen.sh -V
+./autogen.sh
 %configure2_5x
 %make
 
@@ -76,7 +72,6 @@ rm -rf %{buildroot}
 %doc AUTHORS ChangeLog README TODO
 %{_bindir}/%{name}
 %{_bindir}/kiba-settings
-%{_bindir}/populate-dock.sh
 %{_datadir}/applications/*.desktop
 %{_datadir}/%{name}
 %{_datadir}/pixmaps/%{name}.png
