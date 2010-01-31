@@ -10,6 +10,8 @@ URL:		http://www.kiba-dock.org/
 Source0:	%{name}-%{svn}.tar.lzma
 # Fix up menu entries for MDV standards - AdamW 2008/03
 Patch0:		kiba-dock-0.1-desktop.patch
+Patch1:		kiba-dock-fix-str-fmt.patch
+Patch2:		kiba-dock-install.patch
 License:	GPLv2+
 BuildRoot:	%{_tmppath}/%{name}-root
 BuildRequires:	libsvg-cairo-devel
@@ -40,6 +42,8 @@ Development files for %{name}.
 %prep
 %setup -q -n %{name}
 %patch0 -p1 -b .desktop
+%patch1 -p0 -b .str
+%patch2 -p0 -b .install
 
 %build
 sh autogen.sh -V
