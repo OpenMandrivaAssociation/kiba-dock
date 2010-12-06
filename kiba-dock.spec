@@ -1,5 +1,5 @@
 %define svn	1218
-%define release %mkrel 0.%{svn}.1
+%define release %mkrel 0.%{svn}.2
 
 Name:		kiba-dock
 Version:	0.1
