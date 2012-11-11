@@ -1,0 +1,28 @@
+--- kiba-dock/files/kiba-dock.desktop.in.in	2008-03-05 11:43:45.000000000 -0800
++++ kiba-dock/files/kiba-dock.desktop.in.in.new	2008-03-05 13:09:04.000000000 -0800
+@@ -1,8 +1,7 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+ Name=Kiba-Dock
+-_Comment=Gtk+ Dock with smooth graphics.
++_Comment=Gtk+ Dock with smooth graphics
+ Exec=kiba-dock
+-Icon=%prefix%/%DATADIRNAME%/pixmaps/kiba-dock.png
+-Categories=Desktop;Application;Utility;GNOME;
++Icon=kiba-dock
++Categories=GTK;Utility;
+--- kiba-dock/kiba-settings/kiba-settings.desktop.in.in	2008-03-05 11:43:45.000000000 -0800
++++ kiba-dock/kiba-settings/kiba-settings.desktop.in.in.new	2008-03-05 13:09:53.000000000 -0800
+@@ -1,8 +1,7 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+ Name=Kiba-Settings
+-_Comment=Kiba-Dock Settings Editor.
++_Comment=Kiba-Dock settings editor
+ Exec=kiba-settings
+-Icon=%prefix%/%DATADIRNAME%/pixmaps/kiba-dock.png
+-Categories=Settings;Application;Utility;GNOME;
++Icon=kiba-dock
++Categories=GTK;Settings;DesktopSettings;
