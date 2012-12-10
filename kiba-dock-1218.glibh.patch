@@ -1,0 +1,11 @@
+--- kiba-dock/src/main.c.glibh	2009-11-22 22:42:06.000000000 +0300
++++ kiba-dock/src/main.c	2012-11-12 19:54:13.996365311 +0400
+@@ -25,7 +25,7 @@
+ #include <locale.h>
+ #include <gdk/gdk.h>
+ #include <gdk/gdkx.h>
+-#include <glib/gthread.h>
++#include <glib.h>
+ 
+ #include "kiba.h"
+ #include "kiba-plugin-loader.h"
