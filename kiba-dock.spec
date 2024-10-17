@@ -6,7 +6,7 @@ Version:	0.1
 Release:	%{release}
 Summary:	Application dock with advanced graphical effects
 Group:		System/X11
-URL:		http://www.kiba-dock.org/
+URL:		https://www.kiba-dock.org/
 Source0:	%{name}-%{svn}.tar.xz
 # Fix up menu entries for MDV standards - AdamW 2008/03
 Patch0:		kiba-dock-0.1-desktop.patch
