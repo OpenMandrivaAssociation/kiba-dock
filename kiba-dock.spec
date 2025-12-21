@@ -12,6 +12,11 @@ Source0:	%{name}-%{svn}.tar.xz
 Patch0:		kiba-dock-0.1-desktop.patch
 patch1:		kiba-dock-1218.glibh.patch
 License:	GPLv2+
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(libsvg-cairo)
 BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
