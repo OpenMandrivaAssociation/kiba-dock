@@ -3,7 +3,7 @@
 
 Name:		kiba-dock
 Version:	0.1
-Release:	%{release}
+Release:	%{release}1
 Summary:	Application dock with advanced graphical effects
 Group:		System/X11
 URL:		https://www.kiba-dock.org/
