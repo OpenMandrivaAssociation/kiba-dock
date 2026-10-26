@@ -47,8 +47,8 @@ Development files for %{name}.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1 -b .desktop
-%patch1 -p1 -b .glibh
+%patch 0 -p1 -b .desktop
+%patch 1 -p1 -b .glibh
 
 %build
 export CC=gcc
