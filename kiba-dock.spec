@@ -1,5 +1,6 @@
 %define svn	1218
 %define release 0.%{svn}.3
+%global _disable_lto 1
 
 Name:		kiba-dock
 Version:	0.1
@@ -62,7 +63,7 @@ export CXX=g++
 export CFLAGS="%{optflags} -std=gnu17 -Wno-error=implicit-function-declaration -Wno-error=return-mismatch -Wno-error=incompatible-pointer-types -Wno-error=int-conversion"
 
 ./autogen.sh
-%configure LIBS="-lX11 -ldl"
+%configure LIBS="-lX11 -ldl -lm"
 %make LIBTOOL=slibtool-shared
 
 %install
