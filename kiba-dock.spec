@@ -54,6 +54,23 @@ Development files for %{name}.
 sed -i '0,/AC_CONFIG_MACRO_DIR(m4)/b; /AC_CONFIG_MACRO_DIR(m4)/d' configure.ac
 # gdk-pixbuf no longer ships the xlib helper. GTK init is enough.
 sed -i '/gdk_pixbuf_xlib_init/d' src/main.c
+# msgfmt's iconv has no ISO-8859-1 converter. The Italian catalog uses it.
+python - << 'PY'
+import pathlib, re
+for po in pathlib.Path("po").glob("*.po"):
+    raw = po.read_bytes()
+    head = raw[:1500].decode("latin1", "replace")
+    match = re.search(r"charset=([A-Za-z0-9_.-]+)", head)
+    if match is None:
+        continue
+    charset = match.group(1)
+    folded = charset.lower().replace("-", "")
+    if folded in ("utf8", "ascii", "charset"):
+        continue
+    text = raw.decode(charset)
+    text = text.replace("charset=" + charset, "charset=UTF-8", 1)
+    po.write_bytes(text.encode("utf-8"))
+PY
 
 %build
 export CC=gcc
