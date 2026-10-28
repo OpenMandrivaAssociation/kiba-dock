@@ -18,7 +18,7 @@ BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	pkgconfig(libsvg-cairo)
-BuildRequires:	librsvg-devel
+BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(glib-2.0)
