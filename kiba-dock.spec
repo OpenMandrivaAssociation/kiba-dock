@@ -30,7 +30,7 @@ BuildRequires:	intltool gtk-doc
 BuildRequires:	pkgconfig(gdk-pixbuf-xlib-2.0)
 BuildRequires:	gcc-c++, gcc, gcc-cpp
 
-Requires:	kiba-plugins = %{version}
+# kiba-plugins is not packaged in cooker. A hard dependency cannot be installed.
 Obsoletes:	%{mklibname kiba-dock 0} <= %{version}-%{release}
 
 %description
