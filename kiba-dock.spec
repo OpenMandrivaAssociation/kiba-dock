@@ -51,17 +51,22 @@ Development files for %{name}.
 %patch 1 -p1 -b .glibh
 # Autoconf rejects a repeated AC_CONFIG_MACRO_DIR.
 sed -i '0,/AC_CONFIG_MACRO_DIR(m4)/b; /AC_CONFIG_MACRO_DIR(m4)/d' configure.ac
+# gdk-pixbuf no longer ships the xlib helper. GTK init is enough.
+sed -i '/gdk_pixbuf_xlib_init/d' src/main.c
 
 %build
 export CC=gcc
 export CXX=g++
+# This tree relies on implicit GObject prototypes and g_return_if_fail
+# in functions that return a value. GCC 16 rejects both by default.
+export CFLAGS="%{optflags} -std=gnu17 -Wno-error=implicit-function-declaration -Wno-error=return-mismatch -Wno-error=incompatible-pointer-types -Wno-error=int-conversion"
 
 ./autogen.sh
 %configure LIBS="-lX11 -ldl"
-%make
+%make LIBTOOL=slibtool-shared
 
 %install
-%makeinstall_std
+%makeinstall_std LIBTOOL=slibtool-shared
 %find_lang %{name}
 
 #icons
