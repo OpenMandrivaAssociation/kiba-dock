@@ -49,6 +49,8 @@ Development files for %{name}.
 %setup -q -n %{name}
 %patch 0 -p1 -b .desktop
 %patch 1 -p1 -b .glibh
+# Autoconf rejects a repeated AC_CONFIG_MACRO_DIR.
+sed -i '0,/AC_CONFIG_MACRO_DIR(m4)/b; /AC_CONFIG_MACRO_DIR(m4)/d' configure.ac
 
 %build
 export CC=gcc
